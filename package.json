@@ -1,0 +1,13 @@
+{
+    "name": "3dgarage",
+    "version": "0.0.0",
+    "private": true,
+    "scripts": {
+      "start": "node app 3000"
+    },
+    "dependencies": {
+      "express": "~4.16.1",
+      "http": "~1.6.3"
+    }
+  }
+  
