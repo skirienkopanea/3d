@@ -1,7 +1,10 @@
+//Homie!
+const hotline = new Audio("sounds/simpsons.mp3")
+
 //Variables for setup
 let models = ["plane","truck","toy","hover","blue","ghost","white","black"];
 const url = new URL(document.URL);
-param = url.searchParams.get("model");
+param = url.searchParams.get("model") != undefined ? url.searchParams.get("model") : models[Math.floor(Math.random() * models.length)];
 currentModel = undefined;
 for (let i = 0; i<models.length; i++){
   if (param == models[i]){
@@ -14,8 +17,6 @@ let camera;
 let renderer;
 let scene;
 let model;
-let controls;
-
 
 container = document.querySelector(".scene");
 
@@ -83,16 +84,16 @@ function unfreeze() {
 
 const remove = function () {
   scene.remove(scene.children[2]);
-
 }
 
 
-document.addEventListener("keydown", next);
+document.addEventListener("keyup", next);
 function next(e) {
   if (e.key == 'ArrowRight') {
+    hotline.play();
     let rotation = model.rotation.z;
     remove();
-      loader.load("models/" + models[++currentModel%models.length] + "/scene.gltf", function (gltf) {
+      loader.load("models/" + models[Math.abs(++currentModel)%models.length] + "/scene.gltf", function (gltf) {
         scene.add(gltf.scene);
         model = gltf.scene.children[0];
         model.rotation.z = rotation;
@@ -100,12 +101,13 @@ function next(e) {
 }
 }
 
-document.addEventListener("keydown", prev);
+document.addEventListener("keyup", prev);
 function prev(e) {
   if (e.key == 'ArrowLeft') {
+    hotline.play();
     let rotation = model.rotation.z;
     remove();
-      loader.load("models/" + models[--currentModel%models.length] + "/scene.gltf", function (gltf) {
+      loader.load("models/" + models[Math.abs(--currentModel)%models.length] + "/scene.gltf", function (gltf) {
         scene.add(gltf.scene);
         model = gltf.scene.children[0];
         model.rotation.z = rotation;
