@@ -1,5 +1,5 @@
+3D model viewer based on https://github.com/mrdoob/three.js/ 3D library
 <ul>
-  <li>3D model viewer based on three.js library</li>
   <li>Models are my own.</li>
   <li>Use left/right arrow to navigate through models.</li>
  </ul>
