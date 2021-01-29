@@ -27,7 +27,10 @@ const far = 1000;
 
 //Camera setup
 camera = new THREE.PerspectiveCamera(fov, aspect, near, far);
-camera.position.set(0, 5, 30);
+let cameraX = 0;
+let cameraY = 3;
+let cameraZ = 30;
+camera.position.set(cameraX, cameraY, cameraZ);
 
 const ambient = new THREE.AmbientLight(0xffffff, 1);
 scene.add(ambient);
@@ -35,6 +38,15 @@ scene.add(ambient);
 const light = new THREE.DirectionalLight(0xffffff, 2);
 light.position.set(50, 50, 100);
 scene.add(light);
+
+//Resize window
+function onWindowResize() {
+  camera.aspect = container.clientWidth / container.clientHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(container.clientWidth, container.clientHeight);
+}
+
+window.addEventListener("resize", onWindowResize);
 
 //Renderer
 renderer = new THREE.WebGLRenderer({ antialias: true, alpha: true });
@@ -61,43 +73,100 @@ http.onload = function () {
     scene.add(gltf.scene);
     model = gltf.scene.children[0];
     model.rotation.z = 5 / 6 * Math.PI; // (cool) starting pose angle
-    animate();
+    render(); //render without rotating animation
   });
 }
 
+//Render and rotate model
+let render = function () {
+  requestAnimationFrame(render);
+  renderer.render(scene, camera);
+}
 
-
-//Rotate model
 let animate = function () {
-  requestAnimationFrame(animate);
+  requestAnimationFrame(render);
   model.rotation.z += 0.002;
   renderer.render(scene, camera);
 }
 
-const go = animate;
+const freeze = render;
+let isRoatationToggled = false; 
 
-//Resize window
-function onWindowResize() {
-  camera.aspect = container.clientWidth / container.clientHeight;
-  camera.updateProjectionMatrix();
-  renderer.setSize(container.clientWidth, container.clientHeight);
+document.addEventListener("keydown", toggleRotation);
+function toggleRotation(e) {
+  if (e.code == 'Space') {
+    render = (render == freeze) ? animate : freeze;
+    isRoatationToggled = !isRoatationToggled;
+    hotline.play();
+  }
 }
 
-window.addEventListener("resize", onWindowResize);
+//zoom
+let scale = 1.0;
 
-document.addEventListener("mousedown", freeze);
-function freeze() {
-  animate = stop;
+const zoom = function (e){
+  if (e.deltaY < 0){
+    if (scale <=2.9){
+      scale += 0.1
+    }
+    
+  } else {
+    if (scale >=0.2){
+      scale -= 0.1
+    }
+  }
+  camera.position.set(cameraX/scale, cameraY/scale, cameraZ/scale);
+  console.log(scale);
 }
 
-document.addEventListener("mouseup", unfreeze);
-function unfreeze() {
-  animate = go;
+window.addEventListener("wheel", zoom);
+
+//Orbit controls
+let isClicking = false;
+let x = 0;
+let y = 0;
+
+document.addEventListener("mousedown", stopRotation);
+function stopRotation(e) {
+  render = freeze;
+  isClicking = true;
+  x = e.offsetX;
+  y = e.offsetY;
 }
 
+document.addEventListener("mouseup", startRotation);
+function startRotation(e) {
+  render = isRoatationToggled ? animate : freeze;
+  isClicking = false;
+  x = 0;
+  y = 0;
+}
 
-const remove = function () {
-  scene.remove(scene.children[2]);
+let sensitivity = 100;
+document.addEventListener("mousemove", rotateXZ);
+function rotateXZ(e) {
+  if (isClicking === true) {
+    model.rotation.x += (e.offsetY-y)/sensitivity;
+    model.rotation.z += (e.offsetX-x)/sensitivity;
+    y = e.offsetY;
+    x = e.offsetX;   
+  }
+}
+
+document.addEventListener("keydown", adjustSensitivity);
+function adjustSensitivity(e) {
+  if (e.key == '-') {
+    if (sensitivity <= 450) {
+      sensitivity += 50;
+      console.log('sensitivity: ' + sensitivity);
+    }    
+  }
+  if (e.key == '+') {
+    if (sensitivity >= 100) {
+      sensitivity -= 50;
+      console.log('sensitivity: ' + sensitivity);
+    }    
+  }
 }
 
 
@@ -105,7 +174,6 @@ const remove = function () {
 document.addEventListener("keydown", audioUp);
 function audioUp(e) {
   if (e.key == 'ArrowUp') {
-    hotline.play();
     if (hotline.volume <= 0.9) {
       hotline.volume += 0.1;
       console.log('volume: ' + Math.round(hotline.volume * 10) / 10);
@@ -116,7 +184,6 @@ function audioUp(e) {
 document.addEventListener("keydown", audioDown);
 function audioDown(e) {
   if (e.key == 'ArrowDown') {
-    hotline.play();
     if (hotline.volume >= 0.1) {
       hotline.volume -= 0.1;
       console.log('volume: ' + Math.round(hotline.volume * 10) / 10);
@@ -138,40 +205,45 @@ function audioMute(e) {
 }
 
 //Model navigation controls
-
+const remove = function () {
+  scene.remove(scene.children[2]);
+}
 document.addEventListener("keydown", next);
 function next(e) {
   if (e.key == 'ArrowRight') {
-    let rotation = model.rotation.z;
+    let rotationZ = model.rotation.z;
+    let rotationX = model.rotation.x;
+    let rotationY = model.rotation.y;
     loader.load("models/" + models[Math.abs(++currentModel) % models.length] + "/scene.gltf", function (gltf) {
       scene.add(gltf.scene);
       remove();
       model = gltf.scene.children[0];
-      model.rotation.z = rotation;
+      model.rotation.z = rotationZ;
+      model.rotation.x = rotationX;
+      model.rotation.y = rotationY;
 
     });
   }
 }
-
 
 document.addEventListener("keydown", prev);
 function prev(e) {
   if (e.key == 'ArrowLeft') {
-    let rotation = model.rotation.z;
+    let rotationZ = model.rotation.z;
+    let rotationX = model.rotation.x;
+    let rotationY = model.rotation.y;
     loader.load("models/" + models[Math.abs(--currentModel) % models.length] + "/scene.gltf", function (gltf) {
       scene.add(gltf.scene);
       remove();
       model = gltf.scene.children[0];
-      model.rotation.z = rotation;
+      model.rotation.z = rotationZ;
+      model.rotation.x = rotationX;
+      model.rotation.y = rotationY;
     });
   }
 }
 
-
-const stop = function () {
-  requestAnimationFrame(animate);
-  renderer.render(scene, camera);
-}
+//add dragging mouse icon
 
 
 
