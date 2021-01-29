@@ -1,17 +1,15 @@
 //Homie!
 const hotline = new Audio("sounds/simpsons.mp3")
 
-//Variables for setup
-let models = ["plane","truck","toy","hover","blue","ghost","white","black"];
-const url = new URL(document.URL);
-param = url.searchParams.get("model") != undefined ? url.searchParams.get("model") : models[Math.floor(Math.random() * models.length)];
-currentModel = undefined;
-for (let i = 0; i<models.length; i++){
-  if (param == models[i]){
-    currentModel = i;
-  }
-}
+let models = [];
 
+//request model list
+const http = new XMLHttpRequest();
+const path = '/modelList';
+http.open('GET', path, true);
+http.send();
+
+//Variables for setup
 let container;
 let camera;
 let renderer;
@@ -44,14 +42,30 @@ renderer.setSize(container.clientWidth, container.clientHeight);
 renderer.setPixelRatio(window.devicePixelRatio);
 container.appendChild(renderer.domElement);
 
-//Load Model
+//Load Model (after retreiving list of models)
 let loader = new THREE.GLTFLoader();
-loader.load("models/" + param + "/scene.gltf", function (gltf) {
-  scene.add(gltf.scene);
-  model = gltf.scene.children[0];
-  model.rotation.z = 5 / 6 * Math.PI;
-  animate();
-});
+http.onload = function () {
+  models = JSON.parse(http.response);
+
+  //select a custom starting model
+  const url = new URL(document.URL);
+  param = url.searchParams.get("model") != undefined ? url.searchParams.get("model") : models[Math.floor(Math.random() * models.length)];
+  currentModel = undefined;
+  for (let i = 0; i < models.length; i++) {
+    if (param == models[i]) {
+      currentModel = i;
+    }
+  }
+
+  loader.load("models/" + param + "/scene.gltf", function (gltf) {
+    scene.add(gltf.scene);
+    model = gltf.scene.children[0];
+    model.rotation.z = 5 / 6 * Math.PI; // (cool) starting pose angle
+    animate();
+  });
+}
+
+
 
 //Rotate model
 let animate = function () {
@@ -90,29 +104,62 @@ const remove = function () {
 document.addEventListener("keyup", next);
 function next(e) {
   if (e.key == 'ArrowRight') {
-    hotline.play();
     let rotation = model.rotation.z;
     remove();
-      loader.load("models/" + models[Math.abs(++currentModel)%models.length] + "/scene.gltf", function (gltf) {
-        scene.add(gltf.scene);
-        model = gltf.scene.children[0];
-        model.rotation.z = rotation;
-      });   
+    loader.load("models/" + models[Math.abs(++currentModel) % models.length] + "/scene.gltf", function (gltf) {
+      scene.add(gltf.scene);
+      model = gltf.scene.children[0];
+      model.rotation.z = rotation;
+    });
+  }
 }
+
+document.addEventListener("keydown", audioUp);
+function audioUp(e) {
+  if (e.key == 'ArrowUp') {
+    hotline.play();
+    if (hotline.volume <= 0.9) {
+      hotline.volume += 0.1;
+      console.log('volume: ' + Math.round(hotline.volume * 10) / 10);
+    }
+  }
+}
+
+document.addEventListener("keydown", audioDown);
+function audioDown(e) {
+  if (e.key == 'ArrowDown') {
+    hotline.play();
+    if (hotline.volume >= 0.1) {
+      hotline.volume -= 0.1;
+      console.log('volume: ' + Math.round(hotline.volume * 10) / 10);
+    }
+  }
+}
+
+let lastVolume = hotline.volume;
+document.addEventListener("keydown", audioMute);
+function audioMute(e) {
+  if (e.key == 'm') {
+    if (hotline.volume > 0) {
+      lastVolume = hotline.volume;
+      hotline.volume = 0;
+    } else {
+      hotline.volume = lastVolume;
+    }
+  }
 }
 
 document.addEventListener("keyup", prev);
 function prev(e) {
   if (e.key == 'ArrowLeft') {
-    hotline.play();
     let rotation = model.rotation.z;
     remove();
-      loader.load("models/" + models[Math.abs(--currentModel)%models.length] + "/scene.gltf", function (gltf) {
-        scene.add(gltf.scene);
-        model = gltf.scene.children[0];
-        model.rotation.z = rotation;
-      });   
-}
+    loader.load("models/" + models[Math.abs(--currentModel) % models.length] + "/scene.gltf", function (gltf) {
+      scene.add(gltf.scene);
+      model = gltf.scene.children[0];
+      model.rotation.z = rotation;
+    });
+  }
 }
 
 

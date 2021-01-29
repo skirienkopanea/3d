@@ -9,6 +9,11 @@ var port = process.argv[2];
 var app = express();
 var server = http.createServer(app);
 
+//read directories only once
+const testFolder = 'public/models';
+const fs = require('fs');
+const modelList = fs.readdirSync(testFolder);
+
 //add middleware components
 //url logger
 app.use(function (request, response, next) {
@@ -19,6 +24,10 @@ app.use(function (request, response, next) {
 
 //this one feeds all the files requested that are nested in /public folder (this saves us from having to create request handlers for images, html files, audios etc.)
 app.use(express.static(__dirname + "/public"));
+
+app.get('/modelList', function (req, res) {
+  res.json(modelList);
+});
 
 app.get('*', function (req, res) {
     res.sendFile("/index.html", { root: "./public" });
