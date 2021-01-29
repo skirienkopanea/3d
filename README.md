@@ -27,5 +27,6 @@ You can now access the 3D model viewer at http://localhost:3000/
 
 Improvement points:
 <ul>
+  <li>Use file system of node to actually fetch all folders in public/models/ and send it back to the client</li>
   <li>Add orbit controls</li>
 </ul>
