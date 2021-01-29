@@ -9,6 +9,7 @@ Simple 3D model viewer based on https://github.com/mrdoob/three.js/ 3D library
   <li>The viewer supports GLTF 3D files. You can find plenty of free GTLF models at sketchfab.com</li>
   <li>If you download a gtlf model from sketchab, you can add such model to this viewer by simply dropping the model contents in a custom folder in public/models/&lt;your model folder&gt;</li>
   <li>You can access the model view from any url that has model paramater equal to the model folder name, i.e http://localhost:3000/?model=toy for 'toy' folder</li>
+  <li>Models are shown in asccending alphabetic order</li>
 </ul>
 Screenshot:
 
@@ -28,7 +29,6 @@ You can now access the 3D model viewer at http://localhost:3000/
 
 Improvement points:
 <ul>
-  <li>Use file system of node to actually fetch all folders in public/models/ and send it back to the client</li>
   <li>Add orbit controls</li>
   <li>Improve lighting</li>
 </ul>
