@@ -3,7 +3,7 @@ Simple 3D model viewer based on https://github.com/mrdoob/three.js/ 3D library
   <li>The viewer is responsive to screen size changes (window fit)</li>
   <li>Models made by me</li>
   <li>Use left/right arrows to navigate through the models.</li>
-  <li>Easter egg (press arrow up/down) elevator music song: Local Forecast - Slower</li>
+  <li>Easter egg (press arrow up/down) elevator free copyright music: Local Forecast - Slower, by Kevin Macleod https://incompetech.com/music/royalty-free/</li>
   <li>Use Up/Down arrows to control the volume, press 'm' to mute it</li>
   <li>Models rotate around the z-axis. You can disable it by setting model.rotation.z += 0 in garage.js (animate function)</li>
   <li>Live implementation at https://hereinmygarage.herokuapp.com (shows a random model)</li>
