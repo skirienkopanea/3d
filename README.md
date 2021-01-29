@@ -1,6 +1,6 @@
 Simple 3D model viewer based on https://github.com/mrdoob/three.js/ 3D library
 <ul>
-  <li>The viewer is responsive to screen size changes (fit)</li>
+  <li>The viewer is responsive to screen size changes (window fit)</li>
   <li>Models made by me</li>
   <li>Use left/right arrows to navigate through the models.</li>
   <li>Easter egg (press arrow up/down) elevator music song: Local Forecast - Slower</li>
