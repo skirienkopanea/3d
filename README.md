@@ -29,4 +29,5 @@ Improvement points:
 <ul>
   <li>Use file system of node to actually fetch all folders in public/models/ and send it back to the client</li>
   <li>Add orbit controls</li>
+  <li>Improve lighting</li>
 </ul>
