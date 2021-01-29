@@ -3,6 +3,7 @@ Simple 3D model viewer based on https://github.com/mrdoob/three.js/ 3D library
   <li>The viewer is responsive to screen size changes (fit)</li>
   <li>Models made by me, backgound music not...</li>
   <li>Use left/right arrows to navigate through the models.</li>
+  <li>Use Up/Down arrows to control the hotline music, press 'm' to mute it</li>
   <li>Models rotate around the z-axis. You can disable it by setting model.rotation.z += 0 in garage.js (animate function)</li>
   <li>Live implementation at https://hereinmygarage.herokuapp.com (shows a random model)</li>
   <li>The viewer supports GLTF 3D files. You can find plenty of free GTLF models at sketchfab.com</li>
