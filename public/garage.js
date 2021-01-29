@@ -101,19 +101,7 @@ const remove = function () {
 }
 
 
-document.addEventListener("keyup", next);
-function next(e) {
-  if (e.key == 'ArrowRight') {
-    let rotation = model.rotation.z;
-    remove();
-    loader.load("models/" + models[Math.abs(++currentModel) % models.length] + "/scene.gltf", function (gltf) {
-      scene.add(gltf.scene);
-      model = gltf.scene.children[0];
-      model.rotation.z = rotation;
-    });
-  }
-}
-
+//Music controls
 document.addEventListener("keydown", audioUp);
 function audioUp(e) {
   if (e.key == 'ArrowUp') {
@@ -149,13 +137,30 @@ function audioMute(e) {
   }
 }
 
-document.addEventListener("keyup", prev);
+//Model navigation controls
+
+document.addEventListener("keydown", next);
+function next(e) {
+  if (e.key == 'ArrowRight') {
+    let rotation = model.rotation.z;
+    loader.load("models/" + models[Math.abs(++currentModel) % models.length] + "/scene.gltf", function (gltf) {
+      scene.add(gltf.scene);
+      remove();
+      model = gltf.scene.children[0];
+      model.rotation.z = rotation;
+
+    });
+  }
+}
+
+
+document.addEventListener("keydown", prev);
 function prev(e) {
   if (e.key == 'ArrowLeft') {
     let rotation = model.rotation.z;
-    remove();
     loader.load("models/" + models[Math.abs(--currentModel) % models.length] + "/scene.gltf", function (gltf) {
       scene.add(gltf.scene);
+      remove();
       model = gltf.scene.children[0];
       model.rotation.z = rotation;
     });
