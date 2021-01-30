@@ -1,7 +1,7 @@
-Simple 3D model viewer based on https://github.com/mrdoob/three.js/ 3D library
+Simple 3D model viewer based on https://github.com/mrdoob/three.js/ 3D library suited for Sketchfab GLTF files.
 <ul>
   <li>The viewer is responsive to screen size changes (window fit).</li>
-  <li>Models made with Blender by me.</li>
+  <li>Free sample models made with Blender by me.</li>
   <li>Use left/right arrows to navigate through the models.</li>
   <li>Hitting spacebar will play elevator music and toggle model rotation in the z-axis (free copyright music: Local Forecast - Slower, by Kevin Macleod https://incompetech.com/music/royalty-free/) just like if they were at an expo in a turntable...</li>
   <li>Use Up/Down arrows to control the volume, press 'm' to mute.</li>
