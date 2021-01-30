@@ -1,6 +1,32 @@
 //Homie!
 const hotline = new Audio("sounds/elevator.mp3");
 
+//Model info
+const title = document.querySelector("#title");
+const author = document.querySelector("#author");
+const source = document.querySelector("#source");
+const share = document.querySelector("#share");
+
+let modelInfo = ["No title", "No author", "No source"];
+
+
+
+let updateStats = function(){
+  share.innerHTML = "/?model=" + folder;
+  share.href = "?model=" + folder;
+
+  const http = new XMLHttpRequest();
+  const path = "models/" + folder + "/scene.gltf";
+  http.open('GET', path, true);
+  http.send();
+  http.onload = function () {
+    modelInfo = JSON.parse(http.response)["asset"]["extras"];
+    title.innerHTML = modelInfo["title"];
+    author.innerHTML = modelInfo["author"].substr(0,modelInfo["author"].indexOf(" "));
+    source.href = modelInfo["source"];
+  }
+}
+
 let models = [];
 
 //request model list
@@ -61,19 +87,20 @@ http.onload = function () {
 
   //select a custom starting model
   const url = new URL(document.URL);
-  param = url.searchParams.get("model") != undefined ? url.searchParams.get("model") : models[Math.floor(Math.random() * models.length)];
+  folder = url.searchParams.get("model") != undefined ? url.searchParams.get("model") : models[Math.floor(Math.random() * models.length)];
   currentModel = undefined;
   for (let i = 0; i < models.length; i++) {
-    if (param == models[i]) {
+    if (folder == models[i]) {
       currentModel = i;
     }
   }
 
-  loader.load("models/" + param + "/scene.gltf", function (gltf) {
+  loader.load("models/" + folder + "/scene.gltf", function (gltf) {
     scene.add(gltf.scene);
     model = gltf.scene.children[0];
     model.rotation.z = 5 / 6 * Math.PI; // (cool) starting pose angle
     render(); //render without rotating animation
+    updateStats();
   });
 }
 
@@ -233,15 +260,16 @@ function next(e) {
     let rotationZ = model.rotation.z;
     let rotationX = model.rotation.x;
     let rotationY = model.rotation.y;
-    loader.load("models/" + models[Math.abs(++currentModel) % models.length] + "/scene.gltf", function (gltf) {
+    folder = models[Math.abs(++currentModel) % models.length];
+    loader.load("models/" + folder + "/scene.gltf", function (gltf) {
       scene.add(gltf.scene);
       remove();
       model = gltf.scene.children[0];
       model.rotation.z = rotationZ;
       model.rotation.x = rotationX;
       model.rotation.y = rotationY;
-
     });
+    updateStats();
   }
 }
 
@@ -251,7 +279,8 @@ function prev(e) {
     let rotationZ = model.rotation.z;
     let rotationX = model.rotation.x;
     let rotationY = model.rotation.y;
-    loader.load("models/" + models[Math.abs(--currentModel) % models.length] + "/scene.gltf", function (gltf) {
+    folder = models[Math.abs(++currentModel) % models.length];
+    loader.load("models/" + folder + "/scene.gltf", function (gltf) {
       scene.add(gltf.scene);
       remove();
       model = gltf.scene.children[0];
@@ -259,5 +288,6 @@ function prev(e) {
       model.rotation.x = rotationX;
       model.rotation.y = rotationY;
     });
+    updateStats();
   }
 }
