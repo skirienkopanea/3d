@@ -3,18 +3,9 @@ Simple 3D model viewer based on https://github.com/mrdoob/three.js/ 3D library s
   <li>The viewer is responsive to screen size changes (window fit). Designed to be easily embedded</li>
   <li>Free sample models from https://sketchfab.com/kikizana, "elevator song": Local Forecast - Slower, by Kevin Macleod https://incompetech.com/music/royalty-free/)</li>
   <li>The only visible GUI is an interrogation mark in the top right corner, which upon clicking displays a window with the model info and viewer settings (see screenshots)</li>
-  <li>Hitting spacebar will play elevator music and toggle model rotation in the z-axis  just like if they were at an expo in a turntable...</li>
-  <li>Use Up/Down arrows to control the volume, press 'm' to mute.</li>
-  <li>You can disable the automatic model rotation by pressing the spacebar.</li>
-  <li>The automatic model rotation is always disabled while clicking (using orbit controls)</li>
-  <li>Use the mousewheel to zoom in/out</li>
-  <li>You can grab (click and hold) and move the mouse to rotate the models</li>
-  <li>Mouse sensitivity can be adjusted by pressing '-'/'+'.
-  <li>Live implementation at https://hereinmygarage.herokuapp.com (shows a random model)</li>
-  <li>The viewer supports GLTF 3D files. You can find plenty of free GTLF models at sketchfab.com</li>
-  <li>If you download a gtlf model from sketchab, you can add such model easily to this viewer just by simply dropping the model contents in a custom folder in public/models/&lt;your model folder&gt;</li>
-  <li>You can access the model view from any url that has model paramater equal to the model folder name, i.e http://localhost:3000/?model=toy for 'toy' folder</li>
-  <li>All models in public/models directory will be shown in asccending alphabetic order</li>
+    <li>The viewer supports GLTF 3D files. Especially those from Sketchfab. You can easily import models into the viewer by extracting the downloaded zipfile from sketchab into a custom folder in public/models/&lt;your model folder&gt;. Now you can directly view the model from any url that has the model paramater equal to the model folder, i.e http://localhost:3000/?model=toy for 'toy' folder</li>
+    <li>All models in public/models directory will be acessible through the Left/Right arrow keys in asccending alphabetic order</li>
+  <li>Live implementation at https://hereinmygarage.herokuapp.com (shows a random model)
 </ul>
 Screenshot:
 
