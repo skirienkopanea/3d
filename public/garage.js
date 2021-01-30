@@ -279,7 +279,7 @@ function prev(e) {
     let rotationZ = model.rotation.z;
     let rotationX = model.rotation.x;
     let rotationY = model.rotation.y;
-    folder = models[Math.abs(++currentModel) % models.length];
+    folder = models[Math.abs(--currentModel) % models.length];
     loader.load("models/" + folder + "/scene.gltf", function (gltf) {
       scene.add(gltf.scene);
       remove();
