@@ -1,14 +1,59 @@
-* {
+*{
   margin: 0;
   padding: 0;
+  color:white;
+  font-family: monospace;
+}
+
+h3 {
+  line-height:7vmin;
+}
+
+hr {
+  margin-top:2vmin;
+  margin-bottom:2vmin;
+}
+
+.scene{
+
   box-sizing: border-box;
   background: #202020;
-  position: absolute;
+  position:fixed;
+  z-index: -1;
   width: 100%;
   height: 100%;
   cursor:grab;
 }
 
-*:active{
+.scene:active{
   cursor:grabbing;
+}
+
+#icon, #close {
+  font-weight:bold;
+  font-size: 5vmin;
+  position:fixed;
+  top:3%;
+  right:3%;
+  cursor:pointer;
+}
+
+#instructions {
+  width: 100%;
+  height: 100%;
+  display:none;
+  position:fixed;
+  justify-content: center;
+  align-items: center;
+  cursor:default;
+}
+#content{
+  font-size: 4vmin;
+  cursor:help;
+  margin:5%;
+  padding:3%;
+  width: 80%;
+  height: 80%;
+  background-color:hsla(0, 0%, 0%, 0.5);
+  overflow:auto;
 }

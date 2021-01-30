@@ -101,6 +101,23 @@ function toggleRotation(e) {
   }
 }
 
+//info widget
+const info = document.querySelector("#icon");
+const instructions = document.querySelector("#instructions");
+const closeButton = document.querySelector("#close");
+
+info.addEventListener("click", showInstructions);
+function showInstructions(){
+  instructions.style.display = "flex";
+  info.style.display = "none";
+}
+
+closeButton.addEventListener("click", closeInstructions);
+function closeInstructions(){
+  instructions.style.display = "none";
+  info.style.display = "block";
+}
+
 //zoom
 let scale = 1.0;
 
@@ -119,23 +136,25 @@ const zoom = function (e){
   console.log(scale);
 }
 
-window.addEventListener("wheel", zoom);
+container.addEventListener("wheel", zoom);
 
 //Orbit controls
 let isClicking = false;
 let x = 0;
 let y = 0;
 
-document.addEventListener("mousedown", stopRotation);
+container.addEventListener("mousedown", stopRotation);
 function stopRotation(e) {
+  info.style.display = "none";
   render = freeze;
   isClicking = true;
   x = e.offsetX;
   y = e.offsetY;
 }
 
-document.addEventListener("mouseup", startRotation);
+container.addEventListener("mouseup", startRotation);
 function startRotation(e) {
+  info.style.display = "block";
   render = isRoatationToggled ? animate : freeze;
   isClicking = false;
   x = 0;
@@ -143,7 +162,7 @@ function startRotation(e) {
 }
 
 let sensitivity = 100;
-document.addEventListener("mousemove", rotateXZ);
+container.addEventListener("mousemove", rotateXZ);
 function rotateXZ(e) {
   if (isClicking === true) {
     model.rotation.x += (e.offsetY-y)/sensitivity;
@@ -242,9 +261,3 @@ function prev(e) {
     });
   }
 }
-
-//add dragging mouse icon
-
-
-
-
