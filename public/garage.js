@@ -139,6 +139,7 @@ let isRoatationToggled = false;
 document.addEventListener("keydown", toggleRotation);
 function toggleRotation(e) {
   if (e.code == 'Space') {
+    e.preventDefault();//Prevent scrolling
     render = (render == freeze) ? animate : freeze;
     isRoatationToggled = !isRoatationToggled;
     hotline.play();
@@ -166,6 +167,7 @@ function closeInstructions() {
 let scale = 1.0;
 
 const zoom = function (e) {
+  e.preventDefault();//Prevent scrolling
   if (e.deltaY < 0) {
     if (scale <= 2.9) {
       scale += 0.1
@@ -237,6 +239,7 @@ function adjustSensitivity(e) {
 document.addEventListener("keydown", audioUp);
 function audioUp(e) {
   if (e.key == 'ArrowUp') {
+    e.preventDefault();//Prevent scrolling
     if (hotline.volume <= 0.9) {
       hotline.volume += 0.1;
       console.log('volume: ' + Math.round(hotline.volume * 10) / 10);
@@ -247,6 +250,7 @@ function audioUp(e) {
 document.addEventListener("keydown", audioDown);
 function audioDown(e) {
   if (e.key == 'ArrowDown') {
+    e.preventDefault();//Prevent scrolling
     if (hotline.volume >= 0.1) {
       hotline.volume -= 0.1;
       console.log('volume: ' + Math.round(hotline.volume * 10) / 10);
@@ -274,6 +278,7 @@ const remove = function () {
 document.addEventListener("keydown", next);
 function next(e) {
   if (e.key == 'ArrowRight') {
+    e.preventDefault();//Prevent scrolling
     let rotationZ = model.rotation.z;
     let rotationX = model.rotation.x;
     let rotationY = model.rotation.y;
@@ -294,6 +299,7 @@ function next(e) {
 document.addEventListener("keydown", prev);
 function prev(e) {
   if (e.key == 'ArrowLeft') {
+    e.preventDefault();//Prevent scrolling
     let rotationZ = model.rotation.z;
     let rotationX = model.rotation.x;
     let rotationY = model.rotation.y;
@@ -335,22 +341,3 @@ function makeFullScreen(e) {
     };
   }
 };
-
-//Prevent scrolling
-
-function disableScroll() { 
-  // Get the current page scroll position 
-  scrollTop = window.pageYOffset || document.documentElement.scrollTop; 
-  scrollLeft = window.pageXOffset || document.documentElement.scrollLeft, 
-
-      // if any scroll is attempted, set this to the previous value 
-      window.onscroll = function() { 
-          window.scrollTo(scrollLeft, scrollTop); 
-      }; 
-} 
-
-function enableScroll() { 
-  window.onscroll = function() {}; 
-} 
-
-disableScroll();
