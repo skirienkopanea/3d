@@ -319,20 +319,38 @@ function prev(e) {
   }
 }
 
-
+//Full screen
 document.addEventListener("keydown", makeFullScreen);
-
-function makeFullScreen(e){
+function makeFullScreen(e) {
   if (e.key == 'f') {
-  const docElm = document.documentElement;
-  if (docElm.requestFullscreen) {
+    const docElm = document.documentElement;
+    if (docElm.requestFullscreen) {
       docElm.requestFullscreen();
-  } else if (docElm.mozRequestFullScreen) {
+    } else if (docElm.mozRequestFullScreen) {
       docElm.mozRequestFullScreen();
-  } else if (docElm.webkitRequestFullScreen) {
+    } else if (docElm.webkitRequestFullScreen) {
       docElm.webkitRequestFullScreen();
-  } else if (docElm.msRequestFullscreen) {
+    } else if (docElm.msRequestFullscreen) {
       docElm.msRequestFullscreen();
-  };
-}
+    };
+  }
 };
+
+//Prevent scrolling
+
+function disableScroll() { 
+  // Get the current page scroll position 
+  scrollTop = window.pageYOffset || document.documentElement.scrollTop; 
+  scrollLeft = window.pageXOffset || document.documentElement.scrollLeft, 
+
+      // if any scroll is attempted, set this to the previous value 
+      window.onscroll = function() { 
+          window.scrollTo(scrollLeft, scrollTop); 
+      }; 
+} 
+
+function enableScroll() { 
+  window.onscroll = function() {}; 
+} 
+
+disableScroll();
