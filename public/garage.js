@@ -261,6 +261,7 @@ function next(e) {
     let rotationX = model.rotation.x;
     let rotationY = model.rotation.y;
     folder = models[Math.abs(++currentModel) % models.length];
+    console.log(currentModel);
     loader.load("models/" + folder + "/scene.gltf", function (gltf) {
       scene.add(gltf.scene);
       remove();
@@ -279,7 +280,16 @@ function prev(e) {
     let rotationZ = model.rotation.z;
     let rotationX = model.rotation.x;
     let rotationY = model.rotation.y;
-    folder = models[Math.abs(--currentModel) % models.length];
+
+    if (currentModel > 0){
+      folder = models[--currentModel % models.length];
+      console.log(currentModel);
+    } else {
+      currentModel = models.length-1;
+      folder = models[currentModel];
+      console.log(currentModel);
+    }
+    
     loader.load("models/" + folder + "/scene.gltf", function (gltf) {
       scene.add(gltf.scene);
       remove();
