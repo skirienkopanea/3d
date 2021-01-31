@@ -15,8 +15,16 @@
       <h3>Model info</h3>
       <p>Title: <span id="title"></span></p>
       <p>Author: <span id="author"></span></p>
-      <p>Source: <a id="source" href="source">External link</a></p>
-      <p>Viewer link: <a id="share" href="share"></a></p>
+      <p>Source: <a id="source" href="source" target="_blank">Open external link</a></p>
+      <p>Viewer link:
+        
+        <div class="tooltip">
+          <button onclick="copy()" onmouseout="copied()">
+        <span class="tooltiptext" id="myTooltip">Copy to clipboard</span>
+        <input id="share" value="" type ="text" size=40>
+        </button>
+      </div>
+      </p>
       <hr>
       <h3>Viewer settings</h3>
       <p>Left/right arrows: Load previous/next model</p>
@@ -28,7 +36,7 @@
       <p>Up/down arrows: Adjust volume level</p>
       <hr>
       <p>Credits: github.com/skirienkopanea</p>
-      <p>Song: Local Forecast - Slower by Kevin Macleod</p>
+      <p>Song: Local Forecast - Slower by Kevin Macleod</p></br>
       </div>
     </div>
     <div class="scene"></div>

@@ -6,14 +6,31 @@ const title = document.querySelector("#title");
 const author = document.querySelector("#author");
 const source = document.querySelector("#source");
 const share = document.querySelector("#share");
+const tooltip = document.getElementById("myTooltip");
 
 let modelInfo = ["No title", "No author", "No source"];
 
+//Share copy to clipboard
+function copy() {
+  /* Select the text field */
+  share.select();
+  share.setSelectionRange(0, 99999); /* For mobile devices */
+
+  /* Copy the text inside the text field */
+  document.execCommand("copy");
+  tooltip.innerHTML = "Copied!";
+}
+
+function copied() {
+  tooltip.innerHTML = "Copy to clipboard";
+}
 
 
-let updateStats = function(){
-  share.innerHTML = "/?model=" + folder;
-  share.href = "?model=" + folder;
+
+let updateStats = function () {
+  let link = window.location.origin + "/?model=" + folder;
+  share.innerHTML = link;
+  share.value = link;
 
   const http = new XMLHttpRequest();
   const path = "models/" + folder + "/scene.gltf";
@@ -22,7 +39,7 @@ let updateStats = function(){
   http.onload = function () {
     modelInfo = JSON.parse(http.response)["asset"]["extras"];
     title.innerHTML = modelInfo["title"];
-    author.innerHTML = modelInfo["author"].substr(0,modelInfo["author"].indexOf(" "));
+    author.innerHTML = modelInfo["author"].substr(0, modelInfo["author"].indexOf(" "));
     source.href = modelInfo["source"];
   }
 }
@@ -117,7 +134,7 @@ let animate = function () {
 }
 
 const freeze = render;
-let isRoatationToggled = false; 
+let isRoatationToggled = false;
 
 document.addEventListener("keydown", toggleRotation);
 function toggleRotation(e) {
@@ -134,13 +151,13 @@ const instructions = document.querySelector("#instructions");
 const closeButton = document.querySelector("#close");
 
 info.addEventListener("click", showInstructions);
-function showInstructions(){
+function showInstructions() {
   instructions.style.display = "flex";
   info.style.display = "none";
 }
 
 closeButton.addEventListener("click", closeInstructions);
-function closeInstructions(){
+function closeInstructions() {
   instructions.style.display = "none";
   info.style.display = "block";
 }
@@ -148,18 +165,18 @@ function closeInstructions(){
 //zoom
 let scale = 1.0;
 
-const zoom = function (e){
-  if (e.deltaY < 0){
-    if (scale <=2.9){
+const zoom = function (e) {
+  if (e.deltaY < 0) {
+    if (scale <= 2.9) {
       scale += 0.1
     }
-    
+
   } else {
-    if (scale >=0.2){
+    if (scale >= 0.2) {
       scale -= 0.1
     }
   }
-  camera.position.set(cameraX/scale, cameraY/scale, cameraZ/scale);
+  camera.position.set(cameraX / scale, cameraY / scale, cameraZ / scale);
   console.log(scale);
 }
 
@@ -192,10 +209,10 @@ let sensitivity = 100;
 container.addEventListener("mousemove", rotateXZ);
 function rotateXZ(e) {
   if (isClicking === true) {
-    model.rotation.x += (e.offsetY-y)/sensitivity;
-    model.rotation.z += (e.offsetX-x)/sensitivity;
+    model.rotation.x += (e.offsetY - y) / sensitivity;
+    model.rotation.z += (e.offsetX - x) / sensitivity;
     y = e.offsetY;
-    x = e.offsetX;   
+    x = e.offsetX;
   }
 }
 
@@ -205,13 +222,13 @@ function adjustSensitivity(e) {
     if (sensitivity <= 450) {
       sensitivity += 50;
       console.log('sensitivity: ' + sensitivity);
-    }    
+    }
   }
   if (e.key == '+') {
     if (sensitivity >= 100) {
       sensitivity -= 50;
       console.log('sensitivity: ' + sensitivity);
-    }    
+    }
   }
 }
 
@@ -281,15 +298,15 @@ function prev(e) {
     let rotationX = model.rotation.x;
     let rotationY = model.rotation.y;
 
-    if (currentModel > 0){
+    if (currentModel > 0) {
       folder = models[--currentModel % models.length];
       console.log(currentModel);
     } else {
-      currentModel = models.length-1;
+      currentModel = models.length - 1;
       folder = models[currentModel];
       console.log(currentModel);
     }
-    
+
     loader.load("models/" + folder + "/scene.gltf", function (gltf) {
       scene.add(gltf.scene);
       remove();
