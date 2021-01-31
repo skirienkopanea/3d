@@ -318,3 +318,21 @@ function prev(e) {
     updateStats();
   }
 }
+
+
+document.addEventListener("keydown", makeFullScreen);
+
+function makeFullScreen(e){
+  if (e.key == 'f') {
+  const docElm = document.documentElement;
+  if (docElm.requestFullscreen) {
+      docElm.requestFullscreen();
+  } else if (docElm.mozRequestFullScreen) {
+      docElm.mozRequestFullScreen();
+  } else if (docElm.webkitRequestFullScreen) {
+      docElm.webkitRequestFullScreen();
+  } else if (docElm.msRequestFullscreen) {
+      docElm.msRequestFullscreen();
+  };
+}
+};
