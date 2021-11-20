@@ -3,7 +3,7 @@
   "version": "0.0.0",
   "private": true,
   "scripts": {
-    "start": "node app 3000"
+    "start": "node app 3080 3443"
   },
   "dependencies": {
     "express": "^4.17.1"

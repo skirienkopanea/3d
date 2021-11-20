@@ -1,2 +1,4 @@
 node_modules/
 public/librarybackup
+err.log
+out.log
