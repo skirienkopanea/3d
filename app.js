@@ -14,6 +14,8 @@ var server = https.createServer({
 },app);
 server.listen(port);
 
+/****************************************************************************/
+
 //read directories only once
 const testFolder = 'public/models';
 const modelList = fs.readdirSync(testFolder);
