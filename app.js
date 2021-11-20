@@ -13,8 +13,8 @@ var httpApp = express();
 var httpsApp = express();
 var httpServer = http.createServer(httpApp);
 var httpsServer = https.createServer({
-  key: fs.readFileSync("../../sergio/web/privkey.pem"),
-  cert: fs.readFileSync("../../sergio/web/fullchain.pem")
+  key: fs.readFileSync("../../sergio/router/privkey.pem"),
+  cert: fs.readFileSync("../../sergio/router/fullchain.pem")
 },httpsApp);
 httpServer.listen(httpPort);
 httpsServer.listen(httpsPort);
