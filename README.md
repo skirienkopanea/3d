@@ -5,7 +5,7 @@ Simple 3D model viewer based on https://github.com/mrdoob/three.js/ 3D library a
   <li>The only visible GUI is an interrogation mark in the top right corner, which upon clicking displays a window with the model info and viewer settings (see screenshots).</li>
     <li>The viewer supports GLTF 3D files. Especially those from Sketchfab. You can easily import models into the viewer by extracting the downloaded zipfile from sketchab into a custom folder in /public/models/&lt;your model folder&gt;. Now you can directly view the model from any url that has the model paramater equal to the model folder, i.e http://localhost:3000/?model=toy for 'toy' folder</li>
     <li>All models in /public/models directory will be acessible through the Left/Right arrow keys in asccending alphabetic order.</li>
-  <li>Live implementation at https://sergio.kpan.nl:4001/ (shows a random model) or to see it embedded in a blog post you can check https://skirienkopanea.github.io/node/2021/01/30/3d-model-viewer.html.
+  <li>Live implementation at https://sergio.kpan.nl:4001/
 </ul>
 Screenshots:
 
