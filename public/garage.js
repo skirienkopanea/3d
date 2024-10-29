@@ -48,7 +48,7 @@ let models = [];
 
 //request model list
 const http = new XMLHttpRequest();
-const path = '/models/model_list.json';
+const path = '/public/models/model_list.json';
 http.open('GET', path, true);
 http.send();
 
