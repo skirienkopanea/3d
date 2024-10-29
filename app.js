@@ -1,6 +1,7 @@
 /******************************SET UP THE SERVER******************************/
 
 //Import all packages (public) and modules (local)
+
 var express = require("express");
 var https = require("https")
 var fs = require("fs");
@@ -8,11 +9,17 @@ var fs = require("fs");
 //Port config, create Express application an create server
 var port = process.argv[2];
 var app = express();
+/* https
 var server = https.createServer({
   key: fs.readFileSync("../../sergio/router/privkey.pem"),
   cert: fs.readFileSync("../../sergio/router/fullchain.pem")
 },app);
 server.listen(port);
+*/
+// Create an HTTP server
+var server = app.listen(port, () => {
+  console.log(`HTTP server running on port ${port}`);
+});
 
 /****************************************************************************/
 

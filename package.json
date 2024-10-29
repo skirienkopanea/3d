@@ -6,6 +6,6 @@
     "start": "node app 3080 3443"
   },
   "dependencies": {
-    "express": "^4.17.1"
+    "express": "^4.21.1"
   }
 }
